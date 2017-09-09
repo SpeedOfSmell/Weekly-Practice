@@ -14,9 +14,5 @@ int main()
         }
     }
 
-    for (Card c : deck) {
-        std::cout << c.getRank() << " of " << c.getSuit() << std::endl;
-    }
-
     return 0;
 }
