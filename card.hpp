@@ -2,6 +2,8 @@
 #define CARD_HPP
 
 #include <utility>
+#include <iosfwd>
+
 
 enum Rank {
     Ace,
@@ -45,6 +47,21 @@ class Card {
         Rank getRank() const {return rank;}
         Suit getSuit() const {return suit;}
 };
+
+// Equality comparison
+bool operator==(Card a, Card b);
+bool operator!=(Card a, Card b);
+
+// Ordering
+bool operator<(Card a, Card b);
+bool operator>(Card a, Card b);
+bool operator<=(Card a, Card b);
+bool operator>=(Card a, Card b);
+
+std::ostream& operator<<(std::ostream& os, Card c);
+std::ostream& operator<<(std::ostream& os, Rank r);
+std::ostream& operator<<(std::ostream& os, Suit s);
+
 
 #endif // CARD_HPP
 
