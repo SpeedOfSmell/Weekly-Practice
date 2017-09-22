@@ -26,6 +26,28 @@ enum Suit {
     Spades
 };
 
+enum Color {
+    Black,
+    Red
+};
+
+struct SuitedCard {
+    Rank rank;
+    Suit suit;
+};
+
+struct JokerCard {
+    Color colorl;
+};
+
+union CardImpl {
+    SuitedCard sc;
+    JokerCard jc;
+};
+
+CardImpl c;
+c.sc = {Nine, Spades}; //sc is the active member of the union
+
 class Card {
     private:
         Rank rank;
@@ -45,6 +67,21 @@ class Card {
         Rank getRank() const {return rank;}
         Suit getSuit() const {return suit;}
 };
+
+// Equality comparison
+bool operator==(Card a, Card b);
+bool operator!=(Card a, Card b);
+
+// Ordering
+bool operator<(Card a, Card b);
+bool operator>(Card a, Card b);
+bool operator<=(Card a, Card b);
+bool operator>=(Card a, Card b);
+
+std::ostream& operator<<(std::ostream& os, Card c);
+std::ostream& operator<<(std::ostream& os, Rank r);
+std::ostream& operator<<(std::ostream& os, Suit s);
+
 
 #endif // CARD_HPP
 
