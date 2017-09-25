@@ -2,7 +2,6 @@
 
 #include <vector>
 
-
 using Deck = std::vector<Card>;
 
 Deck makeStandardDeck();

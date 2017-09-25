@@ -4,100 +4,115 @@
 #include <random>
 #include <algorithm>
 
-Deck
-make_standard_deck()
-{
-  Deck d {
-    {Ace, Spades},
-    {Two, Spades},
-    {Three, Spades},
-    {Four, Spades},
-    {Five, Spades},
-    {Six, Spades},
-    {Seven, Spades},
-    {Eight, Spades},
-    {Nine, Spades},
-    {Ten, Spades},
-    {Jack, Spades},
-    {Queen, Spades},
-    {King, Spades},
+/*
+Deck makeStandardDeck() {
+    Deck d = {
+        {Suited, .info={.sc={Ace, Spades}}},
+        {Suited, .info={.sc={Two, Spades}}},
+        {Suited, .info={.sc={Three, Spades}}},
+        {Suited, .info={.sc={Four, Spades}}},
+        {Suited, .info={.sc={Five, Spades}}},
+        {Suited, .info={.sc={Six, Spades}}},
+        {Suited, .info={.sc={Seven, Spades}}},
+        {Suited, .info={.sc={Eight, Spades}}},
+        {Suited, .info={.sc={Nine, Spades}}},
+        {Suited, .info={.sc={Ten, Spades}}},
+        {Suited, .info={.sc={Jack, Spades}}},
+        {Suited, .info={.sc={Queen, Spades}}},
+        {Suited, .info={.sc={King, Spades}}},
 
-    {Ace, Clubs},
-    {Two, Clubs},
-    {Three, Clubs},
-    {Four, Clubs},
-    {Five, Clubs},
-    {Six, Clubs},
-    {Seven, Clubs},
-    {Eight, Clubs},
-    {Nine, Clubs},
-    {Ten, Clubs},
-    {Jack, Clubs},
-    {Queen, Clubs},
-    {King, Clubs},
+        {Suited, .info={.sc={Ace, Clubs}}},
+        {Suited, .info={.sc={Two, Clubs}}},
+        {Suited, .info={.sc={Three, Clubs}}},
+        {Suited, .info={.sc={Four, Clubs}}},
+        {Suited, .info={.sc={Five, Clubs}}},
+        {Suited, .info={.sc={Six, Clubs}}},
+        {Suited, .info={.sc={Seven, Clubs}}},
+        {Suited, .info={.sc={Eight, Clubs}}},
+        {Suited, .info={.sc={Nine, Clubs}}},
+        {Suited, .info={.sc={Ten, Clubs}}},
+        {Suited, .info={.sc={Jack, Clubs}}},
+        {Suited, .info={.sc={Queen, Clubs}}},
+        {Suited, .info={.sc={King, Clubs}}},
 
-    {Ace, Hearts},
-    {Two, Hearts},
-    {Three, Hearts},
-    {Four, Hearts},
-    {Five, Hearts},
-    {Six, Hearts},
-    {Seven, Hearts},
-    {Eight, Hearts},
-    {Nine, Hearts},
-    {Ten, Hearts},
-    {Jack, Hearts},
-    {Queen, Hearts},
-    {King, Hearts},
+        {Suited, .info={.sc={Ace, Hearts}}},
+        {Suited, .info={.sc={Two, Hearts}}},
+        {Suited, .info={.sc={Three, Hearts}}},
+        {Suited, .info={.sc={Four, Hearts}}},
+        {Suited, .info={.sc={Five, Hearts}}},
+        {Suited, .info={.sc={Six, Hearts}}},
+        {Suited, .info={.sc={Seven, Hearts}}},
+        {Suited, .info={.sc={Eight, Hearts}}},
+        {Suited, .info={.sc={Nine, Hearts}}},
+        {Suited, .info={.sc={Ten, Hearts}}},
+        {Suited, .info={.sc={Jack, Hearts}}},
+        {Suited, .info={.sc={Queen, Hearts}}},
+        {Suited, .info={.sc={King, Hearts}}},
 
-    {Ace, Diamonds},
-    {Two, Diamonds},
-    {Three, Diamonds},
-    {Four, Diamonds},
-    {Five, Diamonds},
-    {Six, Diamonds},
-    {Seven, Diamonds},
-    {Eight, Diamonds},
-    {Nine, Diamonds},
-    {Ten, Diamonds},
-    {Jack, Diamonds},
-    {Queen, Diamonds},
-    {King, Diamonds},
-  };
-  return d;
+        {Suited, .info={.sc={Ace, Diamonds}}},
+        {Suited, .info={.sc={Two, Diamonds}}},
+        {Suited, .info={.sc={Three, Diamonds}}},
+        {Suited, .info={.sc={Four, Diamonds}}},
+        {Suited, .info={.sc={Five, Diamonds}}},
+        {Suited, .info={.sc={Six, Diamonds}}},
+        {Suited, .info={.sc={Seven, Diamonds}}},
+        {Suited, .info={.sc={Eight, Diamonds}}},
+        {Suited, .info={.sc={Nine, Diamonds}}},
+        {Suited, .info={.sc={Ten, Diamonds}}},
+        {Suited, .info={.sc={Jack, Diamonds}}},
+        {Suited, .info={.sc={Queen, Diamonds}}},
+        {Suited, .info={.sc={King, Diamonds}}},
+    };
+
+    return d;
+}
+*/
+
+Deck makeStandardDeck() {
+    Deck d;
+    d.reserve(52);
+
+    // Much easier to just loop through the enums to create the deck instead of doing it manually
+    for (int suitInt = Hearts; suitInt <= Spades; suitInt++) {
+        for (int rankInt = Ace; rankInt <= King; rankInt++) {
+            d.push_back({Suited, .info={.sc={static_cast<Rank>(rankInt), static_cast<Suit>(suitInt)}}});
+        }
+    }
+
+    return d;
 }
 
 Deck
-make_combined_deck(const Deck& d1, const Deck& d2)
+makeCombinedDeck(const Deck& d1, const Deck& d2)
 {
-  Deck d;
-  d.insert(d.end(), d1.begin(), d1.end());
-  d.insert(d.end(), d2.begin(), d2.end());
-  return d;
+    Deck d;
+    d.insert(d.end(), d1.begin(), d1.end());
+    d.insert(d.end(), d2.begin(), d2.end());
+    return d;
 }
 
 void
 shuffle(Deck& d)
 {
-  // Function-local extern variable.
-  extern std::minstd_rand prng;
+    // Function-local extern variable.
+    extern std::minstd_rand prng;
 
-  std::shuffle(d.begin(), d.end(), prng);
+    std::shuffle(d.begin(), d.end(), prng);
 }
 
 void
 print(const Deck& deck)
 {
-  // Range-base for loop.
-  int i = 1;
-  for (Card c : deck) {
-    std::cout << c << ' ';
-    if (i % 13 == 0) {
-      std::cout << '\n';
-      i = 0;
+    int i = 1;
+    for (Card c : deck) {
+        std::cout << c << ' ';
+        if (i % 13 == 0) {
+            std::cout << '\n';
+            i = 0;
+        }
+        ++i;
     }
-    ++i;
-  }
-  std::cout << '\n';
+
+    std::cout << '\n';
 }
 

@@ -6,8 +6,14 @@
 bool
 operator==(Card a, Card b)
 {
-  return a.getRank() == b.getRank() &&
-         a.getSuit() == b.getSuit();
+    if (a.getKind() == b.getKind() == Suited) { // If they're both normal cards
+        return a.getInfo().sc.getRank() == b.getInfo().sc.getRank() &&
+        a.getInfo().sc.getSuit() == b.getInfo().sc.getSuit();
+    } else if (a.getKind() == b.getKind() == Joker) { // If they're both jokers
+        return a.getInfo().jc.color == b.getInfo().jc.color;
+    } else { // Can't be the same if the kind is different
+        return false;
+    }
 }
 
 bool
@@ -20,11 +26,16 @@ operator!=(Card a, Card b)
 bool
 operator<(Card a, Card b)
 {
-  if (a.getSuit() < b.getSuit())
-    return true;
-  if (b.getSuit() < a.getSuit())
-    return false;
-  return a.getRank() < b.getRank();
+    if (a.getKind() == b.getKind() == Suited) { // If they're both normal cards
+        return a.getInfo().sc.getRank() < b.getInfo().sc.getRank();
+    } else if (a.getKind() == b.getKind() == Joker) { // If they're both jokers
+        return a.getInfo().jc.color < b.getInfo().jc.color;
+    } else {
+        if (a.getKind() == Suited) // Jokers are higher value than suited cards
+            return true;
+        else
+            return false;
+    }
 }
 
 bool
@@ -46,7 +57,7 @@ operator>=(Card a, Card b)
 }
 
 std::ostream&
-operator<<(std::ostream& os, Rank r)
+operator<<(std::ostream& os, const Rank r)
 {
   switch (r) {
     case Ace:
@@ -93,7 +104,7 @@ operator<<(std::ostream& os, Rank r)
 }
 
 std::ostream&
-operator<<(std::ostream& os, Suit s)
+operator<<(std::ostream& os, const Suit s)
 {
   switch (s) {
     case Hearts:
@@ -113,9 +124,26 @@ operator<<(std::ostream& os, Suit s)
 }
 
 std::ostream&
-operator<<(std::ostream& os, Card c)
+operator<<(std::ostream& os, const Color c)
 {
-  return os << c.getRank() << c.getSuit();
+  switch (c) {
+    case Black:
+      os << 'B';
+      break;
+    case Red:
+      os << 'R';
+      break;
+  }
+  return os;
+}
+
+std::ostream&
+operator<<(std::ostream& os, const Card c)
+{
+    if (c.getKind() == Suited)
+        return os << c.getInfo().sc.getRank() << c.getInfo().sc.getSuit();
+    else if (c.getKind() == Joker)
+        return os << 'J' << c.getInfo().jc.color;
 }
 
 

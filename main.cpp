@@ -1,24 +1,29 @@
+#include "card.hpp"
+#include "deck.hpp"
+
 #include <iostream>
 #include <iomanip>
-
-#include "card.hpp"
-
 #include <vector>
+#include <random>
+
+std::random_device rng;
+std::minstd_rand prng;
 
 int main()
 {
-    std::vector<Card> deck; //Create vector to represent the deck
-    deck.reserve(52); //Get another storage for 52 objects
-    for (int s = Hearts; s <= Spades; s++) {
-        for (int r = Ace; r <= King; r++) {
-            Card c{static_cast<Rank>(r), static_cast<Suit>(s)};
-            deck.push_back(c);
-        }
-    }
+    Deck deck = makeStandardDeck();
+    Deck deck2 = makeStandardDeck();
 
-    for (Card c : deck) {
-        std::cout << c.getRank() << " of " << c.getSuit() << std::endl;
-    }
+    shuffle(deck);
+    shuffle(deck2);
+
+    print(deck);
+    print(deck2);
+
+    Deck deck3 = makeCombinedDeck(deck, deck2);
+
+    print(deck3);
 
     return 0;
 }
+

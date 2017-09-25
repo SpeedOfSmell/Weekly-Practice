@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "deck.hpp"
 
 #pragma once
 
@@ -15,8 +15,10 @@ struct Game {
 
     Options options;
     Deck deck;
+    /*
     Player p1;
     Player p2;
     Pile pile;
     int turn;
+    */
 };

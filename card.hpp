@@ -1,6 +1,7 @@
 #ifndef CARD_HPP
 #define CARD_HPP
 
+#include <iostream>
 #include <utility>
 
 enum Rank {
@@ -31,41 +32,43 @@ enum Color {
     Red
 };
 
-struct SuitedCard {
-    Rank rank;
-    Suit suit;
-};
-
-struct JokerCard {
-    Color colorl;
-};
-
-union CardImpl {
-    SuitedCard sc;
-    JokerCard jc;
-};
-
-CardImpl c;
-c.sc = {Nine, Spades}; //sc is the active member of the union
-
-class Card {
+class SuitedCard {
     private:
         Rank rank;
         Suit suit;
 
     public:
-        Card() = default;
-        Card(Rank r, Suit s) : rank(r), suit(s) {}
-//        Card(const Card &c) : rank(c.rank), (c.suit) {} // Copy constructor
-//
-//        Card& operator=(const Card &c) { // Copy assignment operator
-//            rank = c.rank;
-//            suit = c.suit;
-//            return *this;
-//        }
+        SuitedCard() = default;
+        SuitedCard(Rank r, Suit s) : rank(r), suit(s) {}
 
-        Rank getRank() const {return rank;}
-        Suit getSuit() const {return suit;}
+        Rank getRank() const { return rank; }
+        Suit getSuit() const { return suit; }
+};
+
+struct JokerCard {
+    Color color;
+};
+
+union CardInfo {
+    SuitedCard sc;
+    JokerCard jc;
+};
+
+enum CardKind {
+    Suited,
+    Joker
+};
+
+class Card {
+    private:
+        CardKind kind;
+        CardInfo info;
+    public:
+        Card() = default;
+        Card(CardKind k, CardInfo i) : kind(k), info(i) {}
+
+        CardKind getKind() const { return kind; }
+        CardInfo getInfo() const { return info; }
 };
 
 // Equality comparison
@@ -78,9 +81,10 @@ bool operator>(Card a, Card b);
 bool operator<=(Card a, Card b);
 bool operator>=(Card a, Card b);
 
-std::ostream& operator<<(std::ostream& os, Card c);
-std::ostream& operator<<(std::ostream& os, Rank r);
-std::ostream& operator<<(std::ostream& os, Suit s);
+std::ostream& operator<<(std::ostream& os, const Card c);
+std::ostream& operator<<(std::ostream& os, const Rank r);
+std::ostream& operator<<(std::ostream& os, const Color c);
+std::ostream& operator<<(std::ostream& os, const Suit s);
 
 
 #endif // CARD_HPP
