@@ -1,4 +1,7 @@
 #include "deck.hpp"
+#include "player.hpp"
+
+#include <vector>
 
 #pragma once
 
@@ -15,10 +18,12 @@ struct Game {
 
     Options options;
     Deck deck;
-    /*
     Player p1;
     Player p2;
-    Pile pile;
+    std::string winner = "";
+    std::vector<Card> spoils;
     int turn;
-    */
 };
+
+void dealOne(Deck &deck, Player &player);
+

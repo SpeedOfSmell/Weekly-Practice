@@ -94,10 +94,7 @@ makeCombinedDeck(const Deck& d1, const Deck& d2)
 void
 shuffle(Deck& d)
 {
-    // Function-local extern variable.
-    extern std::minstd_rand prng;
-
-    std::shuffle(d.begin(), d.end(), prng);
+    std::random_shuffle(d.begin(), d.end());
 }
 
 void
