@@ -32,59 +32,23 @@ enum Color {
     Red
 };
 
-class SuitedCard {
-    private:
-        Rank rank;
-        Suit suit;
-
-    public:
-        SuitedCard() = default;
-        SuitedCard(Rank r, Suit s) : rank(r), suit(s) {}
-
-        Rank getRank() const { return rank; }
-        Suit getSuit() const { return suit; }
+struct Card {
+    int id;
 };
 
-struct JokerCard {
+struct Suited : Card {
+    Suited(Suit s, Rank r) :
+        suit(s), rank(r){}
+
+    Suit suit;
+    Rank rank;
+};
+
+struct Joker : Card {
+    Joker(Color c) : color(c) {}
+
     Color color;
 };
-
-union CardInfo {
-    SuitedCard sc;
-    JokerCard jc;
-};
-
-enum CardKind {
-    Suited,
-    Joker
-};
-
-class Card {
-    private:
-        CardKind kind;
-        CardInfo info;
-    public:
-        Card() = default;
-        Card(CardKind k, CardInfo i) : kind(k), info(i) {}
-
-        CardKind getKind() const { return kind; }
-        CardInfo getInfo() const { return info; }
-};
-
-// Equality comparison
-bool operator==(Card a, Card b);
-bool operator!=(Card a, Card b);
-
-// Ordering
-bool operator<(Card a, Card b);
-bool operator>(Card a, Card b);
-bool operator<=(Card a, Card b);
-bool operator>=(Card a, Card b);
-
-std::ostream& operator<<(std::ostream& os, const Card c);
-std::ostream& operator<<(std::ostream& os, const Rank r);
-std::ostream& operator<<(std::ostream& os, const Color c);
-std::ostream& operator<<(std::ostream& os, const Suit s);
 
 
 #endif // CARD_HPP

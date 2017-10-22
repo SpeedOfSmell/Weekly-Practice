@@ -1,26 +1,18 @@
-#include "card.hpp"
-#include "deck.hpp"
-#include "game.hpp"
-
 #include <iostream>
 #include <iomanip>
-#include <vector>
 #include <random>
+
+#include "card.hpp"
+#include "deck.hpp"
+
+using namespace std;
 
 int main()
 {
-    srand(time(0)); // For shuffling the deck
-    int runs = 100;
-    int total = 0;
+    srand(time(0));
 
-    for (int i = 0; i < runs; i++) {
-        Game game;
-        game.run();
-        total += game.turn;
-    }
-
-    std::cout << "Average length of a game of war: " << total / runs;
+    Deck deck = makeStandardDeck();
+    shuffle(deck);
 
     return 0;
 }
-
